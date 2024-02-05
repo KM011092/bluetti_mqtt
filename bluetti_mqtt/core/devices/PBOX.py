@@ -4,7 +4,7 @@ from .bluetti_device import BluettiDevice
 from .struct import DeviceStruct
 
 
-class EP600(BluettiDevice):
+class PBOX(BluettiDevice):
     def __init__(self, address: str, sn: str):
         self.struct = DeviceStruct()
         # EP600 current values
