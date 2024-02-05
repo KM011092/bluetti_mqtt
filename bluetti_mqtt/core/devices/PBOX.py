@@ -58,7 +58,7 @@ class EP600(BluettiDevice):
         self.struct.add_decimal_field('power_generation', 154, 1)  # Total power generated since last reset (kwh)
         self.struct.add_decimal_field('total_grid_consumption', 156, 1)  # Grid consumption stats
         self.struct.add_decimal_field('total_grid_feed', 158, 1)
-        super().__init__(address, 'EP600', sn)
+        super().__init__(address, 'PBOX', sn)
 
     @property
     def polling_commands(self) -> List[ReadHoldingRegisters]:
