@@ -65,7 +65,7 @@ class PBOX(BluettiDevice):
         return [
             ReadHoldingRegisters(100, 62),
             ReadHoldingRegisters(2022, 2),
-            ReadHoldingRegisters(1212, 11),
+            ReadHoldingRegisters(1212, 34),
             ReadHoldingRegisters(1300, 30),
             ReadHoldingRegisters(1429, 16),
         ]
