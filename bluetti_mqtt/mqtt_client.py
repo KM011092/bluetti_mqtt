@@ -5,7 +5,8 @@ import json
 import logging
 import re
 from typing import List, Optional
-from asyncio_mqtt import Client, MqttError
+# from asyncio_mqtt import Client, MqttError
+from aiomqtt import Client, MqttError
 from paho.mqtt.client import MQTTMessage
 from bluetti_mqtt.bus import CommandMessage, EventBus, ParserMessage
 from bluetti_mqtt.core import BluettiDevice, DeviceCommand
@@ -1021,11 +1022,13 @@ class MQTTClient:
         await self.message_queue.put(msg)
 
     async def _handle_commands(self, client: Client):
-        async with client.filtered_messages('bluetti/command/#') as messages:
-            await client.subscribe('bluetti/command/#')
-            async for mqtt_message in messages:
-                await self._handle_command(mqtt_message)
-
+        # async with client.filtered_messages('bluetti/command/#') as messages:
+          #  await client.subscribe('bluetti/command/#')
+           # async for mqtt_message in messages:
+            #    await self._handle_command(mqtt_message)
+        await client.subscribe('bluetti/command/#')
+        async for mqtt_message in client.messages:
+            await self._handle_command(mqtt_message)
     async def _handle_messages(self, client: Client):
         while True:
             msg: ParserMessage = await self.message_queue.get()
@@ -1118,7 +1121,8 @@ class MQTTClient:
 
     async def _handle_command(self, mqtt_message: MQTTMessage):
         # Parse the mqtt_message.topic
-        m = COMMAND_TOPIC_RE.match(mqtt_message.topic)
+        # m = COMMAND_TOPIC_RE.match(mqtt_message.topic)
+        m = COMMAND_TOPIC_RE.match(str(mqtt_message.topic))
         if not m:
             logging.warn(f'unknown command topic: {mqtt_message.topic}')
             return
